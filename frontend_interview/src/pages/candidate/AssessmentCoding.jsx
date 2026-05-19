@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setStoredCandidateStage } from "@/lib/candidateFlow";
+import { getInterviewAppUrl } from "@/lib/appUrls";
 
 const AssessmentCoding = () => {
   const navigate = useNavigate();
@@ -244,7 +245,9 @@ const AssessmentCoding = () => {
                   <button
                     onClick={() => {
                       setStoredCandidateStage("coding_done");
-                      navigate("/submission-done/coding");
+                      window.location.assign(
+                        getInterviewAppUrl("/submission-done/coding"),
+                      );
                     }}
                     className="h-9 rounded-lg bg-coral px-4 text-xs font-bold text-white transition hover:bg-coral-dark"
                   >

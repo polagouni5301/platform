@@ -1,28 +1,57 @@
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ScrollToTop from "@/components/ScrollToTop";
 import NotFound from "./pages/NotFound";
+import { getInterviewAppUrl } from "@/lib/appUrls";
 
 // Candidate Pages
 import CandidateLanding from "./pages/candidate/CandidateLanding";
-import CandidateLogin from "./pages/candidate/CandidateLogin";
 import CandidateJobs from "./pages/candidate/CandidateJobs";
 import CandidateCareers from "./pages/candidate/CandidateCareers";
 import CandidateMailbox from "./pages/candidate/CandidateMailbox";
 import CandidateMailboxPreview from "./pages/candidate/CandidateMailboxPreview";
 import ApplicationTracking from "./pages/candidate/ApplicationTracking";
 import ApplyPage from "./pages/candidate/ApplyPage";
-import DeviceCheck from "./pages/candidate/DeviceCheck";
-import PracticeQuestion from "./pages/candidate/PracticeQuestion";
-import VideoInterview from "./pages/candidate/VideoInterview";
-import AssessmentMCQ from "./pages/candidate/AssessmentMCQ";
-import AssessmentCoding from "./pages/candidate/AssessmentCoding";
 import SubmissionDone from "./pages/candidate/SubmissionDone";
 
 const queryClient = new QueryClient();
+
+const CrossAppRedirect = ({ to }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const target = to(location);
+    if (window.location.href !== target) {
+      window.location.replace(target);
+    }
+  }, [location, to]);
+
+  return null;
+};
+
+const redirectToInterview = (location) =>
+  getInterviewAppUrl(`${location.pathname}${location.search}${location.hash}`);
+
+const SubmissionStepRoute = () => {
+  const { step } = useParams();
+
+  if (!step || step === "application") {
+    return <SubmissionDone />;
+  }
+
+  return <CrossAppRedirect to={redirectToInterview} />;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -41,7 +70,6 @@ const App = () => (
           />
           <Route path="/candidate/landing" element={<CandidateLanding />} />
           <Route path="/candidate/careers" element={<CandidateCareers />} />
-          <Route path="/candidate/login" element={<CandidateLogin />} />
           <Route
             path="/candidate/dashboard"
             element={<Navigate to="/candidate/jobs" replace />}
@@ -55,14 +83,39 @@ const App = () => (
           <Route path="/candidate/tracking" element={<ApplicationTracking />} />
 
           <Route path="/apply/:jobId" element={<ApplyPage />} />
-          <Route path="/device-check" element={<DeviceCheck />} />
-          <Route path="/device-check/:step" element={<DeviceCheck />} />
-          <Route path="/practice" element={<PracticeQuestion />} />
-          <Route path="/interview" element={<VideoInterview />} />
-          <Route path="/assessment-mcq" element={<AssessmentMCQ />} />
-          <Route path="/assessment-coding" element={<AssessmentCoding />} />
+          <Route
+            path="/candidate/login"
+            element={<CrossAppRedirect to={redirectToInterview} />}
+          />
+          <Route
+            path="/device-check"
+            element={<CrossAppRedirect to={redirectToInterview} />}
+          />
+          <Route
+            path="/device-check/:step"
+            element={<CrossAppRedirect to={redirectToInterview} />}
+          />
+          <Route
+            path="/practice"
+            element={<CrossAppRedirect to={redirectToInterview} />}
+          />
+          <Route
+            path="/interview"
+            element={<CrossAppRedirect to={redirectToInterview} />}
+          />
+          <Route
+            path="/assessment-mcq"
+            element={<CrossAppRedirect to={redirectToInterview} />}
+          />
+          <Route
+            path="/assessment-coding"
+            element={<CrossAppRedirect to={redirectToInterview} />}
+          />
           <Route path="/submission-done" element={<SubmissionDone />} />
-          <Route path="/submission-done/:step" element={<SubmissionDone />} />
+          <Route
+            path="/submission-done/:step"
+            element={<SubmissionStepRoute />}
+          />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

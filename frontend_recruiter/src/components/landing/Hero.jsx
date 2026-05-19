@@ -100,13 +100,7 @@ export const Hero = () => {
               </button>
             </div>
 
-            <div className="mt-10 flex items-center gap-8 border-t border-charcoal/10 pt-6">
-              <StatBlock value="120+" label="Companies hiring" />
-              <div className="h-10 w-px bg-charcoal/10" />
-              <StatBlock value="48k" label="Interviews run" />
-              <div className="h-10 w-px bg-charcoal/10" />
-              <StatBlock value="92%" label="Time saved" />
-            </div>
+            
           </div>
 
           <div
@@ -116,7 +110,7 @@ export const Hero = () => {
             <div className="relative">
               <div className="absolute -inset-8 bg-gradient-to-br from-coral/30 via-amber/20 to-transparent blur-3xl" />
 
-              <div className="relative rounded-[28px] border border-charcoal/8 bg-white p-5 shadow-[0_30px_80px_-20px_rgba(11,15,26,0.25)] transition-transform duration-500">
+              <div className="relative rounded-[28px] border border-charcoal/8 bg-white p-5 shadow-[0_30px_80px_-20px_rgba(11,15,26,0.25)] transition-transform duration-500 mt-16">
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">

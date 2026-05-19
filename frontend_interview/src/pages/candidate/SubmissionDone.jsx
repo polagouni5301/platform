@@ -1,22 +1,68 @@
 import { CandidateLayout } from "@/components/layout/CandidateLayout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CheckCircle2, Clock, Check, Sparkles } from "lucide-react";
-import { getJobById, setStoredCandidateStage } from "@/lib/candidateFlow";
+import {
+  getJourneyCompletionStage,
+  getJobById,
+  setStoredCandidateStage,
+} from "@/lib/candidateFlow";
+import { getCandidateAppUrl } from "@/lib/appUrls";
 
 const SubmissionDone = () => {
+  const { step } = useParams();
   const navigate = useNavigate();
+  const currentStep =
+    step === "assessment" ||
+    step === "video" ||
+    step === "coding" ||
+    step === "application"
+      ? step
+      : "coding";
   const job = getJobById();
 
   const content = {
-    heading: "Application submitted",
-    body: `Your application for ${job.title} has been submitted successfully.`,
-    completedLabel: "Application form completed",
-    nextLine: "Your next step is ready in the candidate mailbox preview.",
-    doneHref: "/candidate/mailbox-preview",
-  };
+    assessment: {
+      heading: "Assessment submitted",
+      body: `Your assessment responses for ${job.title} have been submitted successfully.`,
+      completedLabel: "Skills assessment completed",
+      nextLine: "You will now continue directly into the video interview flow.",
+      doneHref: "/device-check/video",
+      external: false,
+    },
+    video: {
+      heading: "Interview submitted",
+      body: `Your video interview responses for ${job.title} have been submitted successfully.`,
+      completedLabel: "Video interview completed",
+      nextLine: "You will now continue directly into the machine coding round.",
+      doneHref: "/device-check/coding",
+      external: false,
+    },
+    coding: {
+      heading: "Coding round submitted",
+      body: `Your machine coding submission for ${job.title} has been sent successfully.`,
+      completedLabel: "Machine coding round completed",
+      nextLine: "Your application now moves into final review.",
+      doneHref: getCandidateAppUrl("/candidate/landing"),
+      external: true,
+    },
+    application: {
+      heading: "Application submitted",
+      body: `Your application for ${job.title} has been submitted successfully.`,
+      completedLabel: "Application form completed",
+      nextLine: "Your next step is ready in the candidate mailbox preview.",
+      doneHref: getCandidateAppUrl("/candidate/mailbox-preview"),
+      external: true,
+    },
+  }[currentStep];
 
   const handleDone = () => {
-    setStoredCandidateStage("applied");
+    setStoredCandidateStage(getJourneyCompletionStage(currentStep));
+
+    if (content.external) {
+      window.location.assign(content.doneHref);
+      return;
+    }
+
     navigate(content.doneHref);
   };
 

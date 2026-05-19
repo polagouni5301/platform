@@ -104,23 +104,23 @@ const Dashboard = () => {
               <table className="w-full table-fixed text-[12px]">
                 <thead>
                   <tr className="text-left text-[10px] uppercase tracking-wider text-charcoal-muted">
-                    <th className="w-[29%] px-5 py-3 font-medium">Job title</th>
+                    <th className="w-[27%] px-5 py-3 font-medium">Job title</th>
                     <th className="w-[10%] px-2 py-3 text-center font-medium">
                       Applied
                     </th>
-                    <th className="w-[15%] px-2 py-3 text-center font-medium">
+                    <th className="w-[14%] px-2 py-3 text-center font-medium">
                       Interview attended
                     </th>
-                    <th className="w-[13%] px-2 py-3 text-center font-medium">
+                    <th className="w-[12%] px-2 py-3 text-center font-medium">
                       AI Rejected
                     </th>
                     <th className="w-[12%] px-2 py-3 text-center font-medium">
                       Shortlisted
                     </th>
-                    <th className="w-[10%] px-2 py-3 text-center font-medium">
+                    <th className="w-[9%] px-2 py-3 text-center font-medium">
                       Pending
                     </th>
-                    <th className="w-[11%] px-3 py-3 font-medium">Status</th>
+                    <th className="w-[16%] px-3 py-3 font-medium">Status</th>
                   </tr>
                 </thead>
                 <tbody>

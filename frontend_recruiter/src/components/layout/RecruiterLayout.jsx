@@ -191,7 +191,13 @@ export const RecruiterLayout = ({
           sidebarCollapsed ? "ml-[84px]" : "ml-[228px]"
         }`}
       >
-        <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,247,239,0.9))] px-4 shadow-[0_18px_45px_-36px_rgba(11,15,26,0.45)] backdrop-blur-xl">
+        <header
+          className={`fixed top-0 z-40 flex h-14 items-center justify-between border-b border-charcoal/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,247,239,0.9))] px-4 shadow-[0_18px_45px_-36px_rgba(11,15,26,0.45)] backdrop-blur-xl transition-all duration-300 ${
+            sidebarCollapsed
+              ? "left-[84px] w-[calc(100%-84px)]"
+              : "left-[228px] w-[calc(100%-228px)]"
+          }`}
+        >
           <div className="flex items-center gap-3 text-sm text-charcoal-muted">
             <button
               type="button"
@@ -252,7 +258,7 @@ export const RecruiterLayout = ({
           </div>
         </header>
 
-        <main className="relative flex-1 overflow-x-hidden">
+        <main className="relative flex-1 overflow-x-hidden pt-14">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-coral/25 to-transparent" />
             <div className="absolute left-8 top-8 h-44 w-44 rounded-full bg-[hsl(var(--coral)/0.08)] blur-3xl" />
